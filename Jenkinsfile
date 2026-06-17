@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
-        // 1. Retrieve your Firebase credentials
+        
         FIREBASE_TOKEN = credentials('firebase-token')
         
-        // 2. Prepend Node.js to the environment PATH so Jenkins, npm, and npm's child scripts can find "node" and "npm"
+        
         PATH = "C:\\Program Files\\nodejs;${env.PATH}"
     }
 
@@ -18,7 +18,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                // 3. Clear existing node_modules to avoid Windows permission (EPERM) lockouts
+               
                 bat 'if exist node_modules rmdir /s /q node_modules'
                 bat 'npm install'
             }
