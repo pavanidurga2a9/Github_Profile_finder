@@ -18,7 +18,7 @@ const SearchBar = ({ onSearch }) => {
         </div>
         <input
           type="text"
-          placeholder="Enter GitHub username (e.g., torvalds)..."
+          placeholder=" GitHub username (e.g., torvalds)..."
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           className="w-full bg-transparent px-4 py-3 text-slate-100 placeholder-slate-400 focus:outline-none text-base"
