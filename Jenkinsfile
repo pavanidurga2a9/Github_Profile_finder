@@ -2,11 +2,14 @@ pipeline {
     agent any
 
     environment {
+        // 1. Retrieve your Firebase credentials
         FIREBASE_TOKEN = credentials('firebase-token')
+        
+        // 2. Prepend Node.js to the environment PATH so Jenkins, npm, and npm's child scripts can find "node" and "npm"
+        PATH = "C:\\Program Files\\nodejs;${env.PATH}"
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -15,35 +18,32 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat '"C:\\Program Files\\nodejs\\npm.cmd" install'
+                // 3. Clear existing node_modules to avoid Windows permission (EPERM) lockouts
+                bat 'if exist node_modules rmdir /s /q node_modules'
+                bat 'npm install'
             }
         }
 
         stage('Build Project') {
             steps {
-                bat '"C:\\Program Files\\nodejs\\npm.cmd" run build'
-            }
-        }
-
-        stage('Install Firebase CLI') {
-            steps {
-                bat 'npm install -g firebase-tools'
+                bat 'npm run build'
             }
         }
 
         stage('Deploy to Firebase') {
             steps {
-                bat 'firebase deploy --only hosting --token %FIREBASE_TOKEN%'
+                
+                bat 'npx firebase-tools deploy --only hosting --token %FIREBASE_TOKEN%'
             }
         }
     }
 
     post {
         success {
-            echo 'SUCCESS: App deployed to Firebase'
+            echo '✅ Build and Deployment SUCCESSFUL'
         }
         failure {
-            echo 'FAILED: Check Jenkins logs'
+            echo '❌ Pipeline FAILED - check logs'
         }
     }
 }
