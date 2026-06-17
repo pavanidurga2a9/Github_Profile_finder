@@ -15,13 +15,13 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'
+                bat '"C:\\Program Files\\nodejs\\npm.cmd" install'
             }
         }
 
         stage('Build Project') {
             steps {
-                bat 'npm run build'
+                bat '"C:\\Program Files\\nodejs\\npm.cmd" run build'
             }
         }
 
