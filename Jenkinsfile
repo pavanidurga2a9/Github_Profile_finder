@@ -40,10 +40,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ Build and Deployment SUCCESSFUL'
+            echo 'SUCCESS: App deployed to Firebase'
         }
         failure {
-            echo '❌ Pipeline FAILED - check logs'
+            echo 'FAILED: Check Jenkins logs'
         }
     }
 }
